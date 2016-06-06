@@ -29,14 +29,21 @@
 */
 
 
+func calculateMortysGrade() -> Double {
+    let homework = [100, 100, 100, 85, 65, 100, 100, 100, 0, 105, 105]
+    let quizzes = [93, 87, 100, 100, 100, 72]
+    let tests = [98, 92, 75, 80]
+    let midterm = [85]
+    
+    let homeworkAverage = Double(homework.reduce(0) { $0 + $1 }) / Double(homework.count)
+    let quizzesAverage = Double(quizzes.reduce(0) { $0 + $1 }) / Double(quizzes.count)
+    let testsAverage = Double(tests.reduce(0) { $0 + $1 }) / Double(tests.count)
+    let midtermAverage = Double(midterm.reduce(0) { $0 + $1 }) / Double(midterm.count)
 
+    return (homeworkAverage * 0.20) + (quizzesAverage * 0.25) + (testsAverage * 0.30) + (midtermAverage * 0.10)
+}
 
-
-
-
-
-
-
+let mortyGradeWithoutFinal = calculateMortysGrade()
 
 
 /*:
@@ -50,12 +57,12 @@
  - note: Store the grade Morty needs on his final exam in the variable `mortyFinalNeeded`.
 
 */
+func calculateMortysFinalExamGradeNeeded(gradeWithoutFinal gradeWithoutFinal: Double) -> Double {
+    
+    return (89.5 - gradeWithoutFinal) * (100 / 15.0)
+}
 
-
-
-
-
-
+let mortyFinalNeeded = calculateMortysFinalExamGradeNeeded(gradeWithoutFinal: mortyGradeWithoutFinal)
 
 /*:
  
@@ -87,13 +94,19 @@
  - note: Store Beth's current grade in `bethGradeWithoutFinal` and the score she  needs on her final exam in the variable `bethFinalNeeded`.
 
 */
+func calculateGradeWithoutFinalExam(homeworkGrade homeworkGrade: Double, homeworkConstraint: Double, quizGrade: Double, quizConstraint: Double, testGrade: Double, testConstraint: Double, midtermGrade: Double, midtermConstraint: Double) -> Double {
+    
+    return (homeworkGrade * homeworkConstraint/100) + (quizGrade * quizConstraint/100) + (testGrade * testConstraint/100) + (midtermGrade * midtermConstraint/100)
+}
+
+func calculateFinalExamGradeNeeded(gradeWithoutFinal gradeWithoutFinal: Double, finalExamConstraint: Double, gradeBandTarget: Double) -> Double {
+    return (gradeBandTarget - gradeWithoutFinal) * (100 / finalExamConstraint)
+}
+
+let bethGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 100, homeworkConstraint: 20, quizGrade: 100, quizConstraint: 20, testGrade: 100, testConstraint: 20, midtermGrade: 100, midtermConstraint: 20)
 
 
-
-
-
-
-
+let bethFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: bethGradeWithoutFinal, finalExamConstraint: 20, gradeBandTarget: 97)
 
 /*:
  
@@ -111,10 +124,10 @@
  
 */
 
+let jerryGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 91, homeworkConstraint: 20, quizGrade: 72, quizConstraint: 25, testGrade: 77, testConstraint: 25, midtermGrade: 64, midtermConstraint: 10)
 
 
-
-
+let jerryFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: jerryGradeWithoutFinal, finalExamConstraint: 20, gradeBandTarget: 80)
 
 
 /*:
@@ -133,9 +146,10 @@
  
 */
 
+let summerGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 94, homeworkConstraint: 20, quizGrade: 89, quizConstraint: 25, testGrade: 83, testConstraint: 30, midtermGrade: 93, midtermConstraint: 10)
 
 
-
+let summerFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: summerGradeWithoutFinal, finalExamConstraint: 15, gradeBandTarget: 89.5)
 
 
 
@@ -155,10 +169,10 @@
 
 */
 
+let rickGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 0, homeworkConstraint: 10, quizGrade: 20, quizConstraint: 10, testGrade: 33.33, testConstraint: 15, midtermGrade: 100, midtermConstraint: 10)
 
 
-
-
+let rickFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: rickGradeWithoutFinal, finalExamConstraint: 55, gradeBandTarget: 70)
 
 
 /*:
@@ -172,11 +186,16 @@
  - challenge: Create a function that returns a fully formatted string. Print each person's current grade and final exam grade needed (including Morty) to the console with the format: "_name_ currently has _gradeWithoutFinal_ points and needs to earn at least _finalExamGradeNeeded_ points on the final exam to be happy."
 
 */
+func prettyResult(gradeWithoutFinal gradeWithoutFinal: Double, finalExamGradeNeeded: Double, studentName: String) -> String {
+    
+    return "\(studentName) currently has \(gradeWithoutFinal) points and needs to earn at least \(finalExamGradeNeeded) points on the final exam to be happy."
+}
 
-
-
-
-
+print(prettyResult(gradeWithoutFinal: mortyGradeWithoutFinal, finalExamGradeNeeded: mortyFinalNeeded, studentName: "Morty"))
+print(prettyResult(gradeWithoutFinal: bethGradeWithoutFinal, finalExamGradeNeeded: bethFinalNeeded, studentName: "Beth"))
+print(prettyResult(gradeWithoutFinal: jerryGradeWithoutFinal, finalExamGradeNeeded: jerryFinalNeeded, studentName: "Jerry"))
+print(prettyResult(gradeWithoutFinal: summerGradeWithoutFinal, finalExamGradeNeeded: summerFinalNeeded, studentName: "Summer"))
+print(prettyResult(gradeWithoutFinal: rickGradeWithoutFinal, finalExamGradeNeeded: rickFinalNeeded, studentName: "Rick"))
 
 
 
