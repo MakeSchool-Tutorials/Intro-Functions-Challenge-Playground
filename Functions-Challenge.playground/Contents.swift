@@ -1,5 +1,5 @@
 /*:
-
+ ![Make School Banner](./swift_banner.png)
  # Efficiently Lazy
 
  Finals are coming up, and Morty wants to know how much he needs to study. According to the syllabus, Morty's final grade is calculated using the following constraints:
@@ -168,14 +168,23 @@
  ## 4. Format the results!
 
  It's time to create a function to format the results into _Strings_.
+ 
+ - important: "Printing" is a programming term that means "output to the console". We are not talking about printing it to paper! To view the console, press this button on the top right. ![Open console](./print_console.png)
+ 
+     An empty white box should have appeared at the bottom of your editor! How do you actually "print" to this area? You use the `print` function. `print` takes a single argument -- a `String`.
+     
+     If you call `print("Hello, Make School!")` then you will see `Hello, Make School!` in the console.
+     
+     Now... you might be wondering, how do you inject variable values into a `String`? We do this with "string interpolation". If you have the following:
+     
+         let number: Int = 5
+         print("My number is \(number), it is one less than \(number + 1)")
+     
+     Then it would print `My number is 5, it is one less than 6` to the console. You can add as many of the `\(expression)` interpolations into your string as you would like. Try it out and complete the challenge below :)
 
- - challenge: Create a function that returns a fully formatted string. Print each person's current grade and final exam grade needed (including Morty) to the console with the format: "_name_ currently has _gradeWithoutFinal_ points and needs to earn at least _finalExamGradeNeeded_ points on the final exam to be happy."
+ - callout(Challenge): Create a function that returns a fully formatted string. Use that function to _print_ each person's current grade and final exam grade needed (including Morty) to the console with the format: "_name_ currently has _gradeWithoutFinal_ points and needs to earn at least _finalExamGradeNeeded_ points on the final exam to be happy."
 
 */
-
-
-
-
 
 
 
