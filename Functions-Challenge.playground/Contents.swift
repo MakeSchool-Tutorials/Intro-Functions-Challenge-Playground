@@ -2,7 +2,7 @@
 
  # Efficiently Lazy
 
- Finals are coming up, and Morty wants to know how much he needs to study. According to the syllabus, Morty's final grade is calculated using the following constraints:
+ Finals are coming up, and Morty wants to know how much he needs to study. According to the syllabus, Morty's final grade is calculated using the following Weights:
 
  - **Homework:** 20%
  - **Quizzes:** 25%
@@ -30,17 +30,18 @@
 
 
 func calculateMortysGrade() -> Double {
-    let homework = [100, 100, 100, 85, 65, 100, 100, 100, 0, 105, 105]
-    let quizzes = [93, 87, 100, 100, 100, 72]
-    let tests = [98, 92, 75, 80]
-    let midterm = [85]
+    let homework: Double = 100 + 100 + 100 + 85 + 65 + 100 + 100 + 100 + 0 + 105 + 105
+    let quizzes: Double = 93 + 87 + 100 + 100 + 100 + 72
+    let tests: Double = 98 + 92 + 75 + 80
+    let midterm: Double = 85
     
-    let homeworkAverage = Double(homework.reduce(0) { $0 + $1 }) / Double(homework.count)
-    let quizzesAverage = Double(quizzes.reduce(0) { $0 + $1 }) / Double(quizzes.count)
-    let testsAverage = Double(tests.reduce(0) { $0 + $1 }) / Double(tests.count)
-    let midtermAverage = Double(midterm.reduce(0) { $0 + $1 }) / Double(midterm.count)
-
-    return (homeworkAverage * 0.20) + (quizzesAverage * 0.25) + (testsAverage * 0.30) + (midtermAverage * 0.10)
+    let homeworkAverage = homework / 11.0
+    let quizzesAverage = quizzes / 6.0
+    let testsAverage = tests / 4.0
+    let midtermAverage = midterm / 1.0
+    
+    // We want the grade without the final exam counting against Morty -- he hasn't taken it yet!
+    return ((homeworkAverage * 0.20) + (quizzesAverage * 0.25) + (testsAverage * 0.30) + (midtermAverage * 0.10)) / (1.0 - 0.15)
 }
 
 let mortyGradeWithoutFinal = calculateMortysGrade()
@@ -58,8 +59,7 @@ let mortyGradeWithoutFinal = calculateMortysGrade()
 
 */
 func calculateMortysFinalExamGradeNeeded(gradeWithoutFinal gradeWithoutFinal: Double) -> Double {
-    
-    return (89.5 - gradeWithoutFinal) * (100 / 15.0)
+    return (89.5 - gradeWithoutFinal * 0.85) / 0.15
 }
 
 let mortyFinalNeeded = calculateMortysFinalExamGradeNeeded(gradeWithoutFinal: mortyGradeWithoutFinal)
@@ -94,19 +94,22 @@ let mortyFinalNeeded = calculateMortysFinalExamGradeNeeded(gradeWithoutFinal: mo
  - note: Store Beth's current grade in `bethGradeWithoutFinal` and the score she  needs on her final exam in the variable `bethFinalNeeded`.
 
 */
-func calculateGradeWithoutFinalExam(homeworkGrade homeworkGrade: Double, homeworkConstraint: Double, quizGrade: Double, quizConstraint: Double, testGrade: Double, testConstraint: Double, midtermGrade: Double, midtermConstraint: Double) -> Double {
-    
-    return (homeworkGrade * homeworkConstraint/100) + (quizGrade * quizConstraint/100) + (testGrade * testConstraint/100) + (midtermGrade * midtermConstraint/100)
+func calculateGradeWithoutFinalExam(homeworkGrade homeworkGrade: Double, homeworkWeight: Double, quizGrade: Double, quizWeight: Double, testGrade: Double, testWeight: Double, midtermGrade: Double, midtermWeight: Double) -> Double {
+    let homework = homeworkGrade * homeworkWeight
+    let quiz = quizGrade * quizWeight
+    let test = testGrade * testWeight
+    let midterm = midtermGrade * midtermWeight
+    return (homework + quiz + test + midterm) / (homeworkWeight + quizWeight + testWeight + midtermWeight)
 }
 
-func calculateFinalExamGradeNeeded(gradeWithoutFinal gradeWithoutFinal: Double, finalExamConstraint: Double, gradeBandTarget: Double) -> Double {
-    return (gradeBandTarget - gradeWithoutFinal) * (100 / finalExamConstraint)
+func calculateFinalExamGradeNeeded(gradeWithoutFinal gradeWithoutFinal: Double, finalExamWeight: Double, targetGrade: Double) -> Double {
+    return (targetGrade - gradeWithoutFinal * (1 - finalExamWeight)) / finalExamWeight
 }
 
-let bethGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 100, homeworkConstraint: 20, quizGrade: 100, quizConstraint: 20, testGrade: 100, testConstraint: 20, midtermGrade: 100, midtermConstraint: 20)
+let bethGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 100, homeworkWeight: 0.20, quizGrade: 100, quizWeight: 0.20, testGrade: 100, testWeight: 0.20, midtermGrade: 100, midtermWeight: 0.20)
 
 
-let bethFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: bethGradeWithoutFinal, finalExamConstraint: 20, gradeBandTarget: 97)
+let bethFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: bethGradeWithoutFinal, finalExamWeight: 0.20, targetGrade: 97)
 
 /*:
  
@@ -124,10 +127,10 @@ let bethFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: bethGrade
  
 */
 
-let jerryGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 91, homeworkConstraint: 20, quizGrade: 72, quizConstraint: 25, testGrade: 77, testConstraint: 25, midtermGrade: 64, midtermConstraint: 10)
+let jerryGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 91, homeworkWeight: 0.20, quizGrade: 72, quizWeight: 0.25, testGrade: 77, testWeight: 0.25, midtermGrade: 64, midtermWeight: 0.10)
 
 
-let jerryFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: jerryGradeWithoutFinal, finalExamConstraint: 20, gradeBandTarget: 80)
+let jerryFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: jerryGradeWithoutFinal, finalExamWeight: 0.20, targetGrade: 80)
 
 
 /*:
@@ -146,10 +149,10 @@ let jerryFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: jerryGra
  
 */
 
-let summerGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 94, homeworkConstraint: 20, quizGrade: 89, quizConstraint: 25, testGrade: 83, testConstraint: 30, midtermGrade: 93, midtermConstraint: 10)
+let summerGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 94, homeworkWeight: 0.20, quizGrade: 89, quizWeight: 0.25, testGrade: 83, testWeight: 0.30, midtermGrade: 93, midtermWeight: 0.10)
 
 
-let summerFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: summerGradeWithoutFinal, finalExamConstraint: 15, gradeBandTarget: 89.5)
+let summerFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: summerGradeWithoutFinal, finalExamWeight: 0.15, targetGrade: 89.5)
 
 
 
@@ -169,10 +172,10 @@ let summerFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: summerG
 
 */
 
-let rickGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 0, homeworkConstraint: 10, quizGrade: 20, quizConstraint: 10, testGrade: 33.33, testConstraint: 15, midtermGrade: 100, midtermConstraint: 10)
+let rickGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 0, homeworkWeight: 0.10, quizGrade: 20, quizWeight: 0.10, testGrade: 33.33, testWeight: 0.15, midtermGrade: 100, midtermWeight: 0.10)
 
 
-let rickFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: rickGradeWithoutFinal, finalExamConstraint: 55, gradeBandTarget: 70)
+let rickFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: rickGradeWithoutFinal, finalExamWeight: 0.55, targetGrade: 70)
 
 
 /*:
