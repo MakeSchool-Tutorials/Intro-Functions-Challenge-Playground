@@ -30,14 +30,22 @@
 */
 
 
+func calculateMortysGrade() -> Double {
+    let homework: Double = 100 + 100 + 100 + 85 + 65 + 100 + 100 + 100 + 0 + 105 + 105
+    let quizzes: Double = 93 + 87 + 100 + 100 + 100 + 72
+    let tests: Double = 98 + 92 + 75 + 80
+    let midterm: Double = 85
+    
+    let homeworkAverage = homework / 11.0
+    let quizzesAverage = quizzes / 6.0
+    let testsAverage = tests / 4.0
+    let midtermAverage = midterm / 1.0
+    
+    // We want the grade without the final exam counting against Morty -- he hasn't taken it yet!
+    return ((homeworkAverage * 0.20) + (quizzesAverage * 0.25) + (testsAverage * 0.30) + (midtermAverage * 0.10)) / (1.0 - 0.15)
+}
 
-
-
-
-
-
-
-
+let mortyGradeWithoutFinal = calculateMortysGrade()
 
 
 /*:
@@ -54,9 +62,11 @@
 */
 
 
+func calculateMortysFinalExamGradeNeeded(gradeWithoutFinal: Double) -> Double {
+    return (89.5 - gradeWithoutFinal * 0.85) / 0.15
+}
 
-
-
+let mortyFinalNeeded = calculateMortysFinalExamGradeNeeded(gradeWithoutFinal: mortyGradeWithoutFinal)
 
 
 /*:
@@ -91,10 +101,21 @@
 */
 
 
+func calculateGradeWithoutFinalExam(homeworkGrade: Double, homeworkWeight: Double, quizGrade: Double, quizWeight: Double, testGrade: Double, testWeight: Double, midtermGrade: Double, midtermWeight: Double) -> Double {
+    let homework = homeworkGrade * homeworkWeight
+    let quiz = quizGrade * quizWeight
+    let test = testGrade * testWeight
+    let midterm = midtermGrade * midtermWeight
+    return (homework + quiz + test + midterm) / (homeworkWeight + quizWeight + testWeight + midtermWeight)
+}
 
+func calculateFinalExamGradeNeeded(gradeWithoutFinal: Double, finalExamWeight: Double, targetGrade: Double) -> Double {
+    return (targetGrade - gradeWithoutFinal * (1 - finalExamWeight)) / finalExamWeight
+}
 
+let bethGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 100, homeworkWeight: 0.20, quizGrade: 100, quizWeight: 0.20, testGrade: 100, testWeight: 0.20, midtermGrade: 100, midtermWeight: 0.20)
 
-
+let bethFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: bethGradeWithoutFinal, finalExamWeight: 0.20, targetGrade: 97)
 
 
 /*:
@@ -114,9 +135,9 @@
 */
 
 
+let jerryGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 91, homeworkWeight: 0.20, quizGrade: 72, quizWeight: 0.25, testGrade: 77, testWeight: 0.25, midtermGrade: 64, midtermWeight: 0.10)
 
-
-
+let jerryFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: jerryGradeWithoutFinal, finalExamWeight: 0.20, targetGrade: 80)
 
 
 /*:
@@ -136,9 +157,9 @@
 */
 
 
+let summerGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 94, homeworkWeight: 0.20, quizGrade: 89, quizWeight: 0.25, testGrade: 83, testWeight: 0.30, midtermGrade: 93, midtermWeight: 0.10)
 
-
-
+let summerFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: summerGradeWithoutFinal, finalExamWeight: 0.15, targetGrade: 89.5)
 
 
 /*:
@@ -158,9 +179,9 @@
 */
 
 
+let rickGradeWithoutFinal = calculateGradeWithoutFinalExam(homeworkGrade: 0, homeworkWeight: 0.10, quizGrade: 20, quizWeight: 0.10, testGrade: 33.33, testWeight: 0.15, midtermGrade: 100, midtermWeight: 0.10)
 
-
-
+let rickFinalNeeded = calculateFinalExamGradeNeeded(gradeWithoutFinal: rickGradeWithoutFinal, finalExamWeight: 0.55, targetGrade: 70)
 
 
 /*:
@@ -190,8 +211,16 @@
 */
 
 
+func formattedResult(studentName: String, gradeWithoutFinal: Double, finalExamGradeNeeded: Double) -> String {
+    
+    return "\(studentName) currently has \(gradeWithoutFinal) points and needs to earn at least \(finalExamGradeNeeded) points on the final exam to be happy."
+}
 
-
+print(formattedResult(studentName: "Morty", gradeWithoutFinal: mortyGradeWithoutFinal, finalExamGradeNeeded: mortyFinalNeeded))
+print(formattedResult(studentName: "Beth", gradeWithoutFinal: bethGradeWithoutFinal, finalExamGradeNeeded: bethFinalNeeded))
+print(formattedResult(studentName: "Jerry", gradeWithoutFinal: jerryGradeWithoutFinal, finalExamGradeNeeded: jerryFinalNeeded))
+print(formattedResult(studentName: "Summer", gradeWithoutFinal: summerGradeWithoutFinal, finalExamGradeNeeded: summerFinalNeeded))
+print(formattedResult(studentName: "Rick", gradeWithoutFinal: rickGradeWithoutFinal, finalExamGradeNeeded: rickFinalNeeded))
 
 
 
