@@ -23,8 +23,8 @@
  ## 1. Calculate Morty's current grade.
 
  - callout(Challenge): Create a function called `calculateMortysGrade`. It should take no arguments and return Morty's _current grade_ as a `Double`. The final exam should not be included in this calculation!
- 
- 
+ */
+/*:
  - note: Store Morty's current grade in the `let` constant `mortyGradeWithoutFinal`.
 
 */
@@ -47,8 +47,8 @@
 ## 2. Calcuate the lowest score Morty can earn on the final while still earning an *A* in the class.
 
  - callout(Challenge): Create a function called `calculateMortysFinalExamGradeNeeded` with an arugment of `gradeWithoutFinal`. It should return the grade Morty needs to earn on the final to earn an *A* in the class. Assume that Morty's final grade needs to be at least 89.5 points to earn an *A*.
- 
- 
+ */
+/*:
  - note: Store the grade Morty needs on his final exam in the variable `mortyFinalNeeded`.
 
 */
@@ -183,8 +183,8 @@
          print("My number is \(number), it is one less than \(number + 1)")
      
      Then it would print `My number is 5, it is one less than 6` to the console. You can add as many of the `\(expression)` interpolations into your string as you would like. Try it out and complete the challenge below :)
-
- 
+ */
+/*:
  - callout(Challenge): Create a function that returns a fully formatted string. Use that function to _print_ each person's current grade and final exam grade needed (including Morty) to the console with the format: "_name_ currently has _gradeWithoutFinal_ points and needs to earn at least _finalExamGradeNeeded_ points on the final exam to be happy."
 
 */
